@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sunseeker Sponsorship Portfolio</title>
+    <meta name="description" content="Sunseeker 品牌部设计作品集，按市场与项目分类展示。" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="Primary">
+      <a class="brandmark" href="#top" aria-label="Sunseeker Portfolio">
+        <span class="brand-dot"></span>
+        <span>Sunseeker Portfolio</span>
+      </a>
+      <nav id="nav"></nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-label="Portfolio cover">
+        <div class="hero-media">
+          <img id="heroImage" alt="Sunseeker campaign key visual" />
+        </div>
+        <div class="hero-copy">
+          <p class="kicker">Brand Department Designer</p>
+          <h1>Sunseeker 品牌视觉作品集</h1>
+          <p class="lead">从法国 FFF 到 Philadelphia Phillies、IFK Göteborg 与 FCK，把海外赞助视觉带入真实发布链路，并用可量化数据证明传播价值。</p>
+          <div class="hero-stats" aria-label="Portfolio statistics">
+            <span><strong>3.21M</strong> FFF Exposure</span>
+            <span><strong>1.58M</strong> IFK Exposure</span>
+            <span><strong>513K+</strong> Phillies KV</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro section-pad">
+        <p class="section-label">Design Impact</p>
+        <h2>视觉不是孤立海报，而是进入海外赞助传播链路的内容系统。</h2>
+        <p>数据按归因方式区分：Philadelphia Phillies KV 属于可直接关联到 KV 的视觉结果；FFF、IFK Göteborg、FCK 属于项目级传播结果，用于证明设计参与了真实上线与持续内容发布。</p>
+        <div class="impact-grid" id="impactGrid"></div>
+      </section>
+
+      <section id="spotlight" class="spotlight section-pad"></section>
+      <section id="sections" class="sections"></section>
+    </main>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
+      <button class="lightbox-close" type="button" aria-label="Close preview">×</button>
+      <img id="lightboxImage" alt="" />
+      <p id="lightboxCaption"></p>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
