@@ -47,6 +47,8 @@ def mirror(origin, base, routes):
                     raw = text.replace('\\"', '"').replace('\\/', '/')
                     for match in ASSET.finditer(raw):
                         value = match.group().split('#')[0]
+                        if '{' in value or '}' in value:
+                            continue
                         asset_url = urllib.parse.urljoin(origin+'/' if value.startswith('_next/') else url, value)
                         if asset_url.startswith(origin + '/') and asset_url not in seen and asset_url not in batch:
                             queue[asset_url] = False
