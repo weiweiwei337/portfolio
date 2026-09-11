@@ -1,4 +1,3 @@
-"""Export the published portfolio."""
 import concurrent.futures
 import pathlib
 import re
@@ -9,7 +8,7 @@ SITES = [
  ('https://weiwei-design-portfolio.weiweiwei760.chatgpt.site', '/portfolio/', ['', 'work/dreame', 'work/aiper', 'work/taildao', 'work/luminousidol', 'work/yadiyadi', 'work/ceramics', 'work/whobeast', 'work/ip', 'work/more']),
  ('https://sunseeker-design-portfolio.weiweiwei760.chatgpt.site', '/portfolio/sunseeker/', ['']),
 ]
-ASSET = re.compile(r'''(?:https://|/|\./)[^\s<>"'\\]*?\.(?:js|css|jpg|jpeg|png|webp|svg|gif|mp4|webm|woff2?|ico)(?:\?[^\s<>"'\\]*)?''')
+ASSET = re.compile(r'''(?<=["'\x60(])(?:https://|/|(?:\.\.?/)+|_next/)[^\s<>"'\x60\\]*?\.(?:js|css|jpg|jpeg|png|webp|svg|gif|mp4|webm|woff2?|ico)(?:\?[^\s<>"'\x60\\]*)?''')
 def fetch(url):
     result = subprocess.run(['curl', '-L', '--fail', '--retry', '3', '--max-time', '180', '--silent', '--show-error', url], capture_output=True)
     if result.returncode:
@@ -17,7 +16,7 @@ def fetch(url):
     return result.stdout
 
 def rewrite(text, base):
-    text = re.sub(r'''(["'])(/)(?!/)''', lambda m: m[1] + base, text)
+    text = re.sub(r'''(["'\x60])(/)(?!/)''', lambda m: m[1] + base, text)
     text = re.sub(r'url\(/(?!/)', 'url(' + base, text)
     for origin, target, _ in SITES:
         text = text.replace(origin + '/', target).replace(origin, target.rstrip('/'))
@@ -48,7 +47,7 @@ def mirror(origin, base, routes):
                     raw = text.replace('\\"', '"').replace('\\/', '/')
                     for match in ASSET.finditer(raw):
                         value = match.group().split('#')[0]
-                        asset_url = urllib.parse.urljoin(url, value)
+                        asset_url = urllib.parse.urljoin(origin+'/' if value.startswith('_next/') else url, value)
                         if asset_url.startswith(origin + '/') and asset_url not in seen and asset_url not in batch:
                             queue[asset_url] = False
                     data = rewrite(text, base).encode()
@@ -65,4 +64,3 @@ if __name__ == '__main__':
     assert total > 200, 'Incomplete export'
     assert len(list(OUT.rglob('index.html'))) == 11
     print('Complete:', total, 'files')
-
