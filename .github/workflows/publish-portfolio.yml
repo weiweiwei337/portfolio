@@ -1,0 +1,30 @@
+name: Publish complete portfolio
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [mirror_portfolio.py, .github/workflows/publish-portfolio.yml]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: portfolio-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: https://weiweiwei337.github.io/portfolio/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export full portfolio and all media
+        run: python3 mirror_portfolio.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: github-public
+      - name: Publish website
+        id: deployment
+        uses: actions/deploy-pages@v4
