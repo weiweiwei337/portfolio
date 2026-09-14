@@ -16,7 +16,10 @@ def fetch(url):
     return result.stdout
 
 def rewrite(text, base):
-    text = re.sub(r'''(["'\x60])(/)(?!/)''', lambda m: m[1] + base, text)
+    text = re.sub(r'''(["'\x60])(/)(?=[A-Za-z0-9_#])''', lambda m: m[1] + base, text)
+    text = re.sub(r'''(href\s*[:=]\s*["'\x60])/(["'\x60])''', lambda m: m[1] + base + m[2], text)
+    text = text.replace(r'\"href\":\"/\"', r'\"href\":\"' + base + r'\"')
+    text = text.replace('return' + chr(96) + '/' + chr(96) + '+', 'return' + chr(96) + base + chr(96) + '+')
     text = re.sub(r'url\(/(?!/)', 'url(' + base, text)
     for origin, target, _ in SITES:
         text = text.replace(origin + '/', target).replace(origin, target.rstrip('/'))
