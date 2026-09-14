@@ -8,7 +8,7 @@ SITES = [
  ('https://weiwei-design-portfolio.weiweiwei760.chatgpt.site', '/portfolio/', ['', 'work/dreame', 'work/aiper', 'work/taildao', 'work/luminousidol', 'work/yadiyadi', 'work/ceramics', 'work/whobeast', 'work/ip', 'work/more']),
  ('https://sunseeker-design-portfolio.weiweiwei760.chatgpt.site', '/portfolio/sunseeker/', ['']),
 ]
-ASSET = re.compile(r'''(?<=["'\x60(])(?:https://|/|(?:\.\.?/)+|_next/)[^\s<>"'\x60\\]*?\.(?:js|css|jpg|jpeg|png|webp|svg|gif|mp4|webm|woff2?|ico)(?:\?[^\s<>"'\x60\\]*)?''')
+ASSET = re.compile(r'''(?<=["'\x60(])(?:https://|/|(?:\.\.?/)+|_next/)[^\s<>"'\x60\\]*?\.(?:js|css|jpg|jpeg|png|webp|svg|gif|mp4|mov|webm|woff2?|ico)(?:\?[^\s<>"'\x60\\]*)?''')
 def fetch(url):
     result = subprocess.run(['curl', '-L', '--fail', '--retry', '3', '--max-time', '180', '--silent', '--show-error', url], capture_output=True)
     if result.returncode:
