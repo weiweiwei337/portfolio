@@ -117,7 +117,8 @@ def optimize():
 
 if __name__ == '__main__':
     # Install only in the ephemeral publishing environment, not the visitor browser.
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'Pillow>=12.1,<13'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--target', '.image-tools', 'Pillow>=12.1,<13'])
+    sys.path.insert(0, str(pathlib.Path('.image-tools').resolve()))
     OUT.mkdir(exist_ok=True)
     total = sum(mirror(*site) for site in SITES)
     assert total > 150, 'Incomplete export'
